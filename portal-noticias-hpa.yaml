@@ -1,0 +1,18 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata: 
+  name: portal-noticias-hpa
+spec:
+  scaleTargetRef: #Referencia do Pod a ser autoscalavel
+    apiVersion: apps/v1 # Api do Pod
+    kind: Deployment # Tipo do Pod
+    name: portal-noticias-deployment # Nome do Pod
+  minReplicas: 1 # Qtd min de replicas
+  maxReplicas: 10 # Qtd max de replicas
+  metrics: # Metricas para aplicar autoscale
+    - type: Resource # Tipo da medicao da metrica de decisão
+      resource: 
+        name: cpu 
+        target:
+          type: Utilization
+          averageUtilization: 50 # Porcentagem de utilização média de CPU configurado no Pod
